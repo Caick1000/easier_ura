@@ -1,13 +1,14 @@
 import os
 import errno
 
+default_path = 'D:/talkeen/shell'
 file_extensions = ['csv','txt']
 
 def filepath_validation(file_path):
     
     if not os.path.exists(file_path):
         try:
-            os.makedirs('D:/talkeen/shell/'+ file_path)
+            os.makedirs(default_path + file_path)
         except OSError as exc: # Guard against race condition
             if exc.errno != errno.EEXIST:
                 raise
@@ -28,7 +29,7 @@ def cria_lista_shell():
     filepath_validation(client_name)
     file_extension = file_extension_validation(file_extension)
 
-    file_name = 'D:/talkeen/shell/{}/cria_lista_{}'.format(client_name, name_mailling)
+    file_name = '{}{}/cria_lista_{}'.format(default_path, client_name, name_mailling)
 
     shell = '''
     #Conteudo para Cron

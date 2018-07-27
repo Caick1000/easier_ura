@@ -1,16 +1,19 @@
 import os
 import errno
+from time import sleep
 
-default_path = 'D:/talkeen/shell'
+default_path = 'C:/test/'
 file_extensions = ['csv','txt']
 
 def filepath_validation(file_path):
-    
-    if not os.path.exists(file_path):
+    if not os.path.exists(default_path + file_path):
         try:
             os.makedirs(default_path + file_path)
+            print("Exporting to => ", default_path + file_path)
+            sleep(1)
         except OSError as exc: # Guard against race condition
             if exc.errno != errno.EEXIST:
+                print(errno.EEXIST)
                 raise
 
 def file_extension_validation(file_extension):
@@ -22,14 +25,16 @@ def file_extension_validation(file_extension):
 
 def cria_lista_shell():
     
-    file_extension = input('Whats the file extension of the mailing?')
-    name_mailling = input('Whats the name of the mailing?' )
-    client_name = input('Whats the name/path of the client folder?')
+    file_extension = input('Type the file extension: ')
+    name_mailling = input('Type the name of the mailing: ')
+    file_path = input('Type the name/path of the client: ')
 
-    filepath_validation(client_name)
+
+    filepath_validation(file_path)
+
     file_extension = file_extension_validation(file_extension)
 
-    file_name = '{}{}/cria_lista_{}'.format(default_path, client_name, name_mailling)
+    file_name = '{}{}/cria_lista_{}'.format(default_path, file_path, name_mailling)
 
     shell = '''
     #Conteudo para Cron
@@ -70,4 +75,7 @@ def cria_lista_shell():
     with open (file_name + '.sh', 'w') as shell_file:
         shell_file.write(shell)
 
-cria_lista_shell()
+
+
+if __name__ == '__main__':
+    cria_lista_shell()

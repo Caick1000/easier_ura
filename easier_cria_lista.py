@@ -1,20 +1,51 @@
-import os
+from os import path, makedirs
 import errno
 from time import sleep
 
-default_path = 'C:/test/'
+
+default_path = 'D:/talkeen/shell/'
 file_extensions = ['csv','txt']
 
+
+
+def number_format(num_format):
+    end_format = []
+    if num_format == None:
+        num_format = '[1-9][0-9][0-9][0-9][1-9]'
+
+    if num_format.isdigit():
+       num_format.split(maxsplit=5)
+
+    for i in num_format:
+        end_format.append(i)
+
+    if len(end_format) == 4:
+        end_format.append('1-9')
+        num_format = end_format
+
+    elif len(end_format) == 3:
+        end_format.append('0')
+        end_format.append('1-9')
+        num_format = end_format
+        
+    num_format = '[' + end_format[0] + ']' + '[' + end_format[1] + ']' + '[' + end_format[2] + ']' + '[' + end_format[3] + ']' + '[' + end_format[4] + ']'
+
+    return num_format
+
+
+
 def filepath_validation(file_path):
-    if not os.path.exists(default_path + file_path):
+    if not path.exists(default_path + file_path):
         try:
-            os.makedirs(default_path + file_path)
+            makedirs(default_path + file_path)
             print("Exporting to => ", default_path + file_path)
             sleep(1)
         except OSError as exc: # Guard against race condition
             if exc.errno != errno.EEXIST:
                 print(errno.EEXIST)
                 raise
+
+
 
 def file_extension_validation(file_extension):
     if file_extension not in file_extensions:
@@ -23,12 +54,12 @@ def file_extension_validation(file_extension):
     return file_extension
 
 
-def cria_lista_shell():
-    
-    file_extension = input('Type the file extension: ')
-    name_mailling = input('Type the name of the mailing: ')
-    file_path = input('Type the name/path of the client: ')
 
+def cria_lista_shell():
+    file_extension = input('File extension: ')
+    name_mailling = input('Name of the mailing: ')
+    file_path = input('Name/path of the client: ')
+    num_format = input('Format for V_LISTA: ')
 
     filepath_validation(file_path)
 
@@ -36,15 +67,17 @@ def cria_lista_shell():
 
     file_name = '{}{}/cria_lista_{}'.format(default_path, file_path, name_mailling)
 
+    num_formatting = number_format(num_format)
+
     shell = '''
     #Conteudo para Cron
     #* * * * * /usr/local/bin/cria_lista_{0}.sh > /var/log/contact/cria_lista_{0}.log 2> /var/log/contact/cria_lista_{0}.log
 
     #cria a lista santander parcela
-    if [ `find /tmp/[1-9][0-9][0-9][0-9][1-9]_{0}.{1} | wc -l` -ge 1 ]
-        then
+    if [ `find /tmp/{2}_{0}.{1} | wc -l` -ge 1 ]
+        then        
     
-        for V_LISTA in `find /tmp/[1-9][0-9][0-9][0-9][1-9]_{0}.{1} | cut -c6-10`
+        for V_LISTA in `find /tmp/{2}_{0}.{1} | cut -c6-10`
             do
 
                         SERVICE='listawork_{0}.sql'
@@ -70,7 +103,7 @@ def cria_lista_shell():
             done
 
     fi
-    '''.format(name_mailling, file_extension)
+    '''.format(name_mailling, file_extension, num_formatting)
 
     with open (file_name + '.sh', 'w') as shell_file:
         shell_file.write(shell)

@@ -51,6 +51,9 @@ def file_extension_validation(file_extension):
     if file_extension not in file_extensions:
         file_extension = 'csv'
 
+    if '.' in file_extension[0:]:
+        file_extension = file_extension.replace('.', '')
+
     return file_extension
 
 

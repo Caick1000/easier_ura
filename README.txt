@@ -1,4 +1,7 @@
-Steps to install this script in the server:
+#EASIER URA
+###Work in progress
+
+####Steps to install this script in the server:
 
 1 - Check the python version using 'python --version' command (no quotes)
 

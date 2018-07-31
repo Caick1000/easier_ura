@@ -1,9 +1,11 @@
+#!/usr/bin/env python
 from os import path, makedirs
 import errno
 from time import sleep
 
 
 default_path = 'D:/talkeen/shell/'
+server_default_path = '/usr/local/bin/'
 file_extensions = ['csv','txt']
 
 
@@ -35,6 +37,11 @@ def number_format(num_format):
 
 
 def filepath_validation(file_path):
+    global default_path
+    global server_default_path
+    if not path.exists(default_path):
+        default_path = server_default_path
+
     if not path.exists(default_path + file_path):
         try:
             makedirs(default_path + file_path)
@@ -68,7 +75,7 @@ def cria_lista_shell():
 
     file_extension = file_extension_validation(file_extension)
 
-    file_name = '{}{}/cria_lista_{}'.format(default_path, file_path, name_mailling)
+    file_name = '{0}{1}/cria_lista_{2}'.format(default_path, file_path, name_mailling)
 
     num_formatting = number_format(num_format)
 

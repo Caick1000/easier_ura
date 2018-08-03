@@ -4,7 +4,7 @@
 
 #### Steps to install this script in the server:
 
-1 - Check the python version using 'python --version' command (no quotes)
+1 - Check the python version using `python --version`
 
 2 - Install pip doing these commands/steps:
 

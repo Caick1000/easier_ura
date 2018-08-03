@@ -49,9 +49,6 @@ def number_format(num_format):
 def filepath_validation(file_path):
     global server_default_path
     full_path = server_default_path + file_path
-    
-    print('server_default_path: ', server_default_path)
-    print('file_path: ', file_path)
 
     if full_path == '/usr/local/bin//usr/local/bin/':
         full_path = server_default_path

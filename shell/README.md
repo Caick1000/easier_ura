@@ -20,7 +20,7 @@
 
 4 - change permission with `chmod 755 /usr/local/bin`
 
-5 - `dos2unix shell_cria_lista`
+5 - `dos2unix /usr/local/bin/shell_cria_lista`
 
 
 For help about how to use the command, do: `shell_cria_lista --help`

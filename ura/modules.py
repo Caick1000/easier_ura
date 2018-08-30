@@ -9,7 +9,6 @@ def header(context, ip, path, custom_path, gender):
 
 ;/*
 ;TALKEEN - {context}
-;VERSAO: V1
 ;DATA: {current_date}
 ;*/
 
@@ -17,22 +16,21 @@ def header(context, ip, path, custom_path, gender):
 ;-----------------------------------------------------------------------------------------------------------------------------
 [{context}]
 exten => _X!,1,Set(LINHA_ID=${{EXTEN}})
-;exten => _X!,1,Set(LINHA_ID=${{EXTEN}})
 
-    same=>n,Set(IP_FILE_GRAMMAR=192.168.4.100)
-    same=>n,Set(DEBUG=1)
-    same=>n,Set(GRAMMAR_GLOBAL_DIR=http://${ip}/grammar/global)
+    same=>n,Set(IP_FILE_GRAMMAR={ip})
+    same=>n,Set(DEBUG=0)
+    same=>n,Set(GRAMMAR_GLOBAL_DIR=http://${{IP_FILE_GRAMMAR}}/grammar/global)
     same=>n,Set(V_GENDER={gender})
     same=>n,Set(SOUND_DIR={path})
     same=>n,Set(SOUND_DIR_CUSTOM={custom_path}}})
     same=>n,Set(SOUND_DIR_NOME=global/nomes)
-    same=>n,Set(V_IVR=${context})
+    same=>n,Set(V_IVR=${{context}})
     same=>n,Set(CHANNEL(language)=pt)
 
-    same=>n,Gosub(modulo_init,s,1(${ip}))
+    same=>n,Gosub(modulo_init,s,1(${{IP_FILE_GRAMMAR}}))
     same=>n,Set(COD_LIG=DISO)
     same=>n,GotoIf($[ '${{DEBUG}}' = '1' ]?humano)
-    same=>n,Gosub(modulo_amd_rec_voz,s,1(${ip}))
+    same=>n,Gosub(modulo_amd_rec_voz,s,1(${{IP_FILE_GRAMMAR}}))
 
     same=>n(humano),NoOp(Executando ${{V_IVR}})
     same=>n,NoOp('COD_LIG => '${{COD_LIG}})
@@ -50,7 +48,6 @@ exten => _X!,1,Set(LINHA_ID=${{EXTEN}})
     same=>n,Set(COD_LINK_CHAR=1)
     same=>n,Set(CPF=12345678901)
 
-    
 ;===========================================================================================
 
 ;===========================================================================================
@@ -64,7 +61,6 @@ exten => _X!,1,Set(LINHA_ID=${{EXTEN}})
     same=>n,Wait(1)
     same=>n,GotoIf($[ '${{DEBUG}}' = '1' ]?interno_saudacao)
     same=>n,NoOp('gcami_reply => '${{gcami_reply}})
-    ; Variaveis gcami_reply
     same=>n,Set(DDD=${{CUT(gcami_reply,|,1)}})
     same=>n,Set(FONE=${{CUT(gcami_reply,|,2)}})
     same=>n,Set(NOME=${{CUT(gcami_reply,|,3)}})
@@ -77,8 +73,6 @@ exten => _X!,1,Set(LINHA_ID=${{EXTEN}})
 
 def body (path, custom_path):
     layout = '''same=>n(interno_saudacao),NoOp(interno_saudacao)
-
-    ;"Trata nome"
     same=>n,Set(PRI_NOME=${{CUT(NOME," ",1)}})
     same=>n,Set(PRI_NOME=${{TOLOWER(${{PRI_NOME}})}})
 
@@ -88,12 +82,9 @@ def body (path, custom_path):
 ;===========================================================================================
 ;localizar_responsavel
 ;===========================================================================================
-;Pergunta "Por favor, eu gostaria de falar com..."
     same=>n(localizar_responsavel),Playback(${path}/falar_com)
 
     same=>n,Gosub(modulo_play_nome,s,1(${{SOUND_DIR_NOME}},${{PRI_NOME}},f))
-    ;Recvoz para confirmar presenca (sim/nao)
-    ;Pergunta "E voce ?"
     same=>n(localiza_responsavel_continua),Set(RESP_INVALIDA=0)
     same=>n,Set(RV_BEFORE_SPEECH_TIMEOUT=2300)
     same=>n,Set(RV_AFTER_SPEECH_TIMEOUT=700)

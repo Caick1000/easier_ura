@@ -1,0 +1,52 @@
+<CreateUra>:
+    cols: 1
+    padding: 10
+    spacing: 10
+    row_force_default: True
+    row_default_height: '32dp'
+    
+
+    BoxLayout:
+        Label: 
+            text: 'Contexto:'
+        TextInput: 
+            focus: True
+            multiline: False
+            cursor_color: (0, 0, 0, 0.8)
+            id: context_input
+
+    BoxLayout:
+        Label:
+            text: 'IP:'
+        TextInput:
+            multiline: False
+            cursor_color: (0, 0, 0, 0.8)
+            id: ip_input
+
+    BoxLayout:
+        Label:
+            text: 'Path:'
+        TextInput:
+            multiline: False
+            cursor_color: (0, 0, 0, 0.8)
+            id: path_input
+
+    BoxLayout:
+        Label:
+            text: 'Custom path:'
+        TextInput:
+            multiline: False
+            cursor_color: (0, 0, 0, 0.8)
+            id: custom_path_input
+
+    BoxLayout:
+        Label:
+            text: 'Gender:'
+        TextInput:
+            multiline: False
+            cursor_color: (0, 0, 0, 0.8)
+            id: gender_input 
+    
+    Button:
+        text: 'Create Ura'
+        on_press: root.uraConfig()

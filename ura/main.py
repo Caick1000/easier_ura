@@ -2,20 +2,39 @@ from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
+from kivy.uix.dropdown import DropDown
+from kivy.core.window import Window
+from kivy.uix.anchorlayout import AnchorLayout
+Window.clearcolor = (0, 0.05, 0.1, 0)
 
 from modules import header, body, footer
 from datetime import datetime
 
 current_date = datetime.now().strftime("%Y/%m/%d")
+
+
 class CreateUra(GridLayout):
     
     def uraConfig(self):
-        global context
+        ura_file_name = 'no_name'
+        debug = 0
+        gender = ''
+        ura_file_name = self.ids.ura_file_name.text
         context = self.ids.context_input.text
         ip = self.ids.ip_input.text
         path =self.ids.path_input.text
         custom_path = self.ids.custom_path_input.text
-        gender = self.ids.gender_input.text
+
+        
+        if self.ids.btn.text == 'Female':
+            gender = 'f'
+        elif self.ids.btn.text == 'Male':
+            gender = 'm'
+        else:
+            gender = 'f'
+
+        if self.ids.check_debug.active:
+            debug = 1
 
         layout = ''';-----------------------------------------------------------------------------------------------------------------------------
         ;-----------------------------------------------------------------------------------------------------------------------------
@@ -35,14 +54,14 @@ class CreateUra(GridLayout):
             same=>n,Set(GRAMMAR_GLOBAL_DIR=http://${{IP_FILE_GRAMMAR}}/grammar/global)
             same=>n,Set(V_GENDER={gender})
             same=>n,Set(SOUND_DIR={path})
-            same=>n,Set(SOUND_DIR_CUSTOM={custom_path}}})
+            same=>n,Set(SOUND_DIR_CUSTOM={custom_path})
             same=>n,Set(SOUND_DIR_NOME=global/nomes)
-            same=>n,Set(V_IVR=${{context}})
+            same=>n,Set(V_IVR={context})
             same=>n,Set(CHANNEL(language)=pt)
 
             same=>n,Gosub(modulo_init,s,1(${{IP_FILE_GRAMMAR}}))
             same=>n,Set(COD_LIG=DISO)
-            same=>n,GotoIf($[ '${{DEBUG}}' = '1' ]?humano)
+            same=>n,GotoIf($[ '${{DEBUG}}' = '{debug}' ]?humano)
             same=>n,Gosub(modulo_amd_rec_voz,s,1(${{IP_FILE_GRAMMAR}}))
 
             same=>n(humano),NoOp(Executando ${{V_IVR}})
@@ -67,21 +86,21 @@ class CreateUra(GridLayout):
         ;saudacao
         ;===========================================================================================
             same=>n(saudacao),NoOp(saudacao)
-            same=>n,GotoIf($[ '${{DEBUG}}' = '1' ]?saudacao_inicio)
+            same=>n,GotoIf($[ '${{DEBUG}}' = '{debug}' ]?saudacao_inicio)
             same=>n,Set(FILE(${{gCAMI}},,,la,u)={{'origem':'dialplan','comando':'ligAtendida','linha_id':'${{LINHA_ID}}','canal':'${{CHANNEL(name)}}','retorno':'false'}})  
             same=>n,Set(FILE(${{gCAMI}},,,la,u)={{'origem':'dialplan','comando':'criaVariaveis','linha_id':'${{LINHA_ID}}','canal':'${{CHANNEL(name)}}','retorno':'false','linha_info':'ddd|fone|nome_cliente|id_tabela_disca|cod_link_int|cod_link_char|contrato|valor|cpf|idusuario','fila_info':'fila_transfer'}})
             same=>n(saudacao_inicio),Gosub(modulo_saudacao,s,1(${path}))
             same=>n,Wait(1)
-            same=>n,GotoIf($[ '${{DEBUG}}' = '1' ]?interno_saudacao)
+            same=>n,GotoIf($[ '${{DEBUG}}' = '{debug}' ]?interno_saudacao)
             same=>n,NoOp('gcami_reply => '${{gcami_reply}})
             same=>n,Set(DDD=${{CUT(gcami_reply,|,1)}})
             same=>n,Set(FONE=${{CUT(gcami_reply,|,2)}})
             same=>n,Set(NOME=${{CUT(gcami_reply,|,3)}})
             same=>n,Set(ID_TABELA=${{CUT(gcami_reply,|,4)}})
-            same=>n,Set(COD_LINK_INT=${{CUT(gcami_reply,|,5)}})'''.format(context=context, ip=ip, gender=gender, path=path, custom_path=custom_path, current_date=current_date)
+            same=>n,Set(COD_LINK_INT=${{CUT(gcami_reply,|,5)}})'''.format(context=context,ip=ip,gender=gender,path=path,custom_path=custom_path,current_date=current_date, debug=debug)
 
 
-        with open('test.conf', 'w+') as f:
+        with open(ura_file_name + '.conf', 'w+') as f:
             f.write(layout + '\n')
                 
     

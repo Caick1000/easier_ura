@@ -4,7 +4,6 @@
     spacing: 10
     row_force_default: True
     row_default_height: '32dp'
-    
 
     BoxLayout:
         Label: 
@@ -14,6 +13,14 @@
             multiline: False
             cursor_color: (0, 0, 0, 0.8)
             id: context_input
+
+    BoxLayout:
+            Label: 
+                text: 'Nome do arquivo:'
+            TextInput: 
+                multiline: False
+                cursor_color: (0, 0, 0, 0.8)
+                id: ura_file_name
 
     BoxLayout:
         Label:
@@ -41,12 +48,39 @@
 
     BoxLayout:
         Label:
-            text: 'Gender:'
-        TextInput:
-            multiline: False
-            cursor_color: (0, 0, 0, 0.8)
-            id: gender_input 
+            text: 'Debug mode'
+        CheckBox:
+            id: check_debug
+
+    Button:
+        id: btn
+        text: 'Gender'
+        on_release: dropdown.open(self)
+        size_hint_y: None
+        height: '32dp'
+
+    DropDown:
+        padding: 10
+        spacing: 10
+        id: dropdown
+        on_select: btn.text = '{}'.format(args[1])
     
+        Button:
+            id: female
+            background_color: (0, 0.01, 0.3, 0)
+            text: 'Female'
+            size_hint_y: None
+            height: 28
+            on_release: dropdown.select('Female')
+            
+        Button:
+            id:male
+            background_color: (0, 0.01, 0.3, 0)
+            text: 'Male'
+            size_hint_y: None
+            height: 28
+            on_release: dropdown.select('Male')
+            
     Button:
         text: 'Create Ura'
         on_press: root.uraConfig()

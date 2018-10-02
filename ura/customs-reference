@@ -1,9 +1,9 @@
 Custom variables in a ura:
-1 - Context
-2 - IP
-3 - SOUND_DIR
-4 - SOUND_DIR_CUSTOM
-5 - GENDER
+1 - Context - OK
+2 - IP - OK
+3 - SOUND_DIR - OK
+4 - SOUND_DIR_CUSTOM - OK
+5 - GENDER - OK
 6 - Cuts on database
 7 - transferencia (fila_transfer, trunk, MCDU)
 8 - ?replies on the MRCP?

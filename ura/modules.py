@@ -41,11 +41,7 @@ exten => _X!,1,Set(LINHA_ID=${{EXTEN}})
     same=>n(coletar_variaveis),NoOp(coletar_variaveis);
 
     ;VARIAVEIS
-    same=>n,Set(DDD=11)
-    same=>n,Set(FONE=942201531)
     same=>n,Set(NOME=Augusto)
-    same=>n,Set(COD_LINK_INT=1)
-    same=>n,Set(COD_LINK_CHAR=1)
     same=>n,Set(CPF=12345678901)
 
 ;===========================================================================================

@@ -88,4 +88,6 @@
             
     Button:
         text: 'Create Ura'
+        id: bt_create
         on_press: root.uraConfig()
+        on_release: root.clear_inputs(path_input.text, ip_input.text, custom_path_input.text, context_input.text, ura_file_name.text)

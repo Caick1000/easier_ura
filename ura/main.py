@@ -40,6 +40,11 @@ def validations(gender, context, path, custom_path, debug, ip):
 
 class CreateUra(GridLayout):
 
+    def clear_inputs(self, *args):
+            for item in args:
+                print(item)
+                item = 'teste'
+
     def uraConfig(self):
         debug = self.ids.check_debug.active
         gender = self.ids.gender.text
@@ -48,6 +53,7 @@ class CreateUra(GridLayout):
         ip = self.ids.ip_input.text
         path =self.ids.path_input.text
         custom_path = self.ids.custom_path_input.text
+        bt_create = self.ids.bt_create.on_press
 
         gender, context, path, custom_path, debug, ip = validations(gender, context, path, custom_path, debug, ip)
 
@@ -55,6 +61,7 @@ class CreateUra(GridLayout):
 
         with open(str(ura_file_name) + '.conf', 'w+') as f:
             f.write(str(ura_header) + '\n')
+    
 
 
 class UraApp(App):

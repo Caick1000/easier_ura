@@ -67,7 +67,7 @@ exten => _X!,1,Set(LINHA_ID=${{EXTEN}})
     same=>n,Set(ID_TABELA=${{CUT(gcami_reply,|,4)}})
     same=>n,Set(COD_LINK_INT=${{CUT(gcami_reply,|,5)}})'''.format(context=context, ip=ip, gender=gender, path=path, custom_path=custom_path, current_date=current_date)
 
-    print(layout)
+    return(layout)
 
 
 
@@ -136,7 +136,7 @@ def body (path, custom_path):
     same=>n,Goto(desligar)
 ;==========================================================================================='''.format(path=path, custom_path=custom_path)
 
-    print(layout)
+    return(layout)
 
 
 def footer ():
@@ -164,4 +164,4 @@ exten => h,1,NoOp(Event Hangup)
 ; fim talkeen-IVR
 ;==========================================================================================='''
 
-    print(layout)
+    return(layout)

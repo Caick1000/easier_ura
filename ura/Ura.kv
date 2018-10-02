@@ -9,23 +9,26 @@
         Label: 
             text: 'Contexto:'
         TextInput: 
+            hint_text: "Contexto da ura"
             focus: True
             multiline: False
             cursor_color: (0, 0, 0, 0.8)
             id: context_input
 
-    BoxLayout:
-            Label: 
-                text: 'Nome do arquivo:'
-            TextInput: 
-                multiline: False
-                cursor_color: (0, 0, 0, 0.8)
-                id: ura_file_name
+    # BoxLayout:
+    #         Label: 
+    #             text: 'Nome da ura:'
+    #         TextInput: 
+    #             hint_text: "Nome do arquivo da ura"
+    #             multiline: False
+    #             cursor_color: (0, 0, 0, 0.8)
+    #             id: ura_file_name
 
     BoxLayout:
         Label:
             text: 'IP:'
         TextInput:
+            hint_text: "IP do servidor"
             multiline: False
             cursor_color: (0, 0, 0, 0.8)
             id: ip_input
@@ -34,6 +37,7 @@
         Label:
             text: 'Path:'
         TextInput:
+            hint_text: "Diretorio dos audios globais"
             multiline: False
             cursor_color: (0, 0, 0, 0.8)
             id: path_input
@@ -42,6 +46,7 @@
         Label:
             text: 'Custom path:'
         TextInput:
+            hint_text: "Diretorio dos audios customizado"
             multiline: False
             cursor_color: (0, 0, 0, 0.8)
             id: custom_path_input
@@ -53,7 +58,7 @@
             id: check_debug
 
     Button:
-        id: btn
+        id: gender
         text: 'Gender'
         on_release: dropdown.open(self)
         size_hint_y: None
@@ -63,7 +68,7 @@
         padding: 10
         spacing: 10
         id: dropdown
-        on_select: btn.text = '{}'.format(args[1])
+        on_select: gender.text = '{}'.format(args[1])
     
         Button:
             id: female

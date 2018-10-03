@@ -40,9 +40,9 @@ def validations(gender, context, path, custom_path, debug, ip):
 
 class CreateUra(GridLayout):
 
-    def clear_inputs(self, *args):
-        for item in args:
-            item = ''
+    def clear_inputs(self, text_inputs):
+        for text_input in text_inputs:
+            text_input.text = ''
 
     def uraConfig(self):
         debug = self.ids.check_debug.active
@@ -61,7 +61,6 @@ class CreateUra(GridLayout):
         with open(str(ura_file_name) + '.conf', 'w+') as f:
             f.write(str(ura_header) + '\n')
     
-
 
 class UraApp(App):
 

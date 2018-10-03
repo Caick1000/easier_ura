@@ -90,4 +90,4 @@
         text: 'Create Ura'
         id: bt_create
         on_press: root.uraConfig()
-        on_release: custom_path_input.text = '';path_input.text = '';ura_file_name.text = '';ip_input.text = '';context_input.text = ''
+        on_release: root.clear_inputs([context_input, ura_file_name, ip_input, custom_path_input, path_input])

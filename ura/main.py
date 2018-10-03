@@ -41,9 +41,8 @@ def validations(gender, context, path, custom_path, debug, ip):
 class CreateUra(GridLayout):
 
     def clear_inputs(self, *args):
-            for item in args:
-                print(item)
-                item = 'teste'
+        for item in args:
+            item = ''
 
     def uraConfig(self):
         debug = self.ids.check_debug.active

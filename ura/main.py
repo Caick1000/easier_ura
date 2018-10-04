@@ -22,7 +22,7 @@ class Localizacao(Screen):
     button_text = StringProperty('Gender')
 
     def __init__(self, **kwargs):
-        super(CreateUra, self).__init__(**kwargs)
+        super(Localizacao, self).__init__(**kwargs)
         self.dropdown = CustomDropDown(self)
 
         

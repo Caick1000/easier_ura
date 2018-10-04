@@ -2,10 +2,10 @@
 from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.button import Button
 from kivy.uix.dropdown import DropDown
+from kivy.uix.button import Button
 from kivy.core.window import Window
-from kivy.uix.anchorlayout import AnchorLayout
+from kivy.uix.screenmanager import ScreenManager, Screen, ScreenManagerException
 from kivy.properties import StringProperty
 
 # Mysc imports
@@ -18,7 +18,7 @@ Window.clearcolor = (0, 0.05, 0.1, 0)
 
 
 
-class CreateUra(GridLayout):
+class CreateUra(Screen):
     button_text = StringProperty('Gender')
 
     def __init__(self, **kwargs):
@@ -39,7 +39,6 @@ class CreateUra(GridLayout):
         ip = self.ids.ip_input.text
         path =self.ids.path_input.text
         custom_path = self.ids.custom_path_input.text
-        bt_create = self.ids.bt_create.on_press
 
         gender, context, path, custom_path, debug, ip = validations(gender, context, path, custom_path, debug, ip)
 
@@ -47,7 +46,26 @@ class CreateUra(GridLayout):
 
         with open(ura_file_name + '.conf', 'w+') as f:
             f.write(ura_header + '\n')
-    
+
+
+
+class MenuScreen(Screen):
+    type_ura = StringProperty(None)
+    error_text = StringProperty('')
+
+    def checkUraType(self):
+        type_localizacao = self.ids.type_localizacao.active
+        type_preventiva = self.ids.type_preventiva.active
+        type_negociacao = self.ids.type_negociacao.active
+        
+        if (type_localizacao):
+            self.type_ura = 'localizacao'
+        elif(type_preventiva):
+            self.type_ura = 'preventiva'
+        elif(type_negociacao):
+            self.type_ura = 'negociacao'
+        else:
+            self.error_text = 'Nenhum tipo selecionado!'
 
 
 class CustomDropDown(DropDown):
@@ -55,14 +73,21 @@ class CustomDropDown(DropDown):
         super(CustomDropDown, self).__init__(**kwargs)
         self.gender = genders
 
+
     def on_select(self, data):
         self.gender.button_text = data
 
 
+
+class My_manager(ScreenManager):
+    pass
+
+
+
 class UraApp(App):
-
     def build(self):
-        return CreateUra()
+        return My_manager()
 
-if __name__ == "__main__":
+
+if __name__ == '__main__':
     UraApp().run()

@@ -18,7 +18,7 @@ Window.clearcolor = (0, 0.05, 0.1, 0)
 
 
 
-class CreateUra(Screen):
+class Localizacao(Screen):
     button_text = StringProperty('Gender')
 
     def __init__(self, **kwargs):

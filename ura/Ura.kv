@@ -5,6 +5,9 @@
     row_force_default: True
     row_default_height: '32dp'
 
+    Image: 
+        source:'images/talkeen.png'
+
     BoxLayout:
         Label: 
             text: 'Contexto:'
@@ -59,35 +62,38 @@
 
     Button:
         id: gender
-        text: 'Gender'
-        on_release: dropdown.open(self)
+        text: root.button_text
+        on_release: root.dropdown.open(self)
         size_hint_y: None
         height: '32dp'
 
-    DropDown:
-        padding: 10
-        spacing: 10
-        id: dropdown
-        on_select: gender.text = '{}'.format(args[1])
-    
-        Button:
-            id: female
-            background_color: (0, 0.01, 0.3, 0)
-            text: 'Female'
-            size_hint_y: None
-            height: 28
-            on_release: dropdown.select('Female')
-            
-        Button:
-            id:male
-            background_color: (0, 0.01, 0.3, 0)
-            text: 'Male'
-            size_hint_y: None
-            height: 28
-            on_release: dropdown.select('Male')
-            
+
     Button:
         text: 'Create Ura'
         id: bt_create
+        size_hint_x: None
+        size: 200,200
         on_press: root.uraConfig()
         on_release: root.clear_inputs([context_input, ura_file_name, ip_input, custom_path_input, path_input])
+
+<CustomDropDown>:
+    padding: 10
+    spacing: 10
+    id: dropdown
+
+    Button:
+        id: female
+        background_color: (0, 0.01, 0.3, 0)
+        text: 'Female'
+        size_hint_y: None
+        height: 28
+        on_release: root.select('Female')
+        
+    Button:
+        id:male
+        background_color: (0, 0.01, 0.3, 0)
+        text: 'Male'
+        size_hint_y: None
+        height: 28
+        on_release: root.select('Male')
+        

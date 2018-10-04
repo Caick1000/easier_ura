@@ -6,43 +6,30 @@ from kivy.uix.button import Button
 from kivy.uix.dropdown import DropDown
 from kivy.core.window import Window
 from kivy.uix.anchorlayout import AnchorLayout
+from kivy.properties import StringProperty
 
-# Misc imports
+# Mysc imports
 from modules import header, body, footer
+from validations import validations
 from datetime import datetime
 
-current_date = datetime.now().strftime("%Y/%m/%d")
+#Color of the window
+Window.clearcolor = (0, 0.05, 0.1, 0)
 
-
-# Function to check if a parameter is wrong or empty
-def validations(gender, context, path, custom_path, debug, ip):
-    gender = 'f' if gender == 'Female' else 'm' if gender == 'Male' else 'f'
-    context = 'missing_context' if context == '' else context
-    path = 'global/{}'.format(gender) if path == '' else path
-    custom_path = path if custom_path == '' else custom_path
-    debug = '0' if debug == False else '1'
-    ip = 'missing_ip' if ip == '' else ip
-
-    if custom_path[:-1] == '/' or custom_path[:-1] == '\\':
-        custom_path = custom_path[:-1]
-
-    if custom_path[0:] == '/' or custom_path[0:] == '\\':
-        custom_path = custom_path[0:]
-
-    if path[:-1] == '/' or path[:-1] == '\\':
-        path = path[:-1]
-
-    if path[0:] == '/' or path[0:] == '\\':
-        path = path[0:]
-
-    return(gender, context, path, custom_path, debug, ip)
 
 
 class CreateUra(GridLayout):
+    button_text = StringProperty('Gender')
 
+    def __init__(self, **kwargs):
+        super(CreateUra, self).__init__(**kwargs)
+        self.dropdown = CustomDropDown(self)
+
+        
     def clear_inputs(self, text_inputs):
         for text_input in text_inputs:
             text_input.text = ''
+
 
     def uraConfig(self):
         debug = self.ids.check_debug.active
@@ -58,9 +45,19 @@ class CreateUra(GridLayout):
 
         ura_header = header(context, ip, path, custom_path, gender)
 
-        with open(str(ura_file_name) + '.conf', 'w+') as f:
-            f.write(str(ura_header) + '\n')
+        with open(ura_file_name + '.conf', 'w+') as f:
+            f.write(ura_header + '\n')
     
+
+
+class CustomDropDown(DropDown):
+    def __init__(self, genders, **kwargs):
+        super(CustomDropDown, self).__init__(**kwargs)
+        self.gender = genders
+
+    def on_select(self, data):
+        self.gender.button_text = data
+
 
 class UraApp(App):
 

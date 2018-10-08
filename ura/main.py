@@ -25,11 +25,6 @@ class Localizacao(Screen):
         super(Localizacao, self).__init__(**kwargs)
         self.dropdown = CustomDropDown(self)
 
-        
-    def clear_inputs(self, text_inputs):
-        for text_input in text_inputs:
-            text_input.text = ''
-
 
     def uraConfig(self):
         debug = self.ids.check_debug.active
@@ -65,7 +60,8 @@ class MenuScreen(Screen):
         elif(type_negociacao):
             self.type_ura = 'negociacao'
         else:
-            self.error_text = 'Nenhum tipo selecionado!'
+            self.type_ura = 'localizacao'
+
 
 
 class CustomDropDown(DropDown):
@@ -85,9 +81,14 @@ class My_manager(ScreenManager):
 
 
 class UraApp(App):
+
+
     def build(self):
         return My_manager()
 
+    def clear_inputs(self, text_inputs):
+        for text_input in text_inputs:
+            text_input.text = ''
 
 if __name__ == '__main__':
     UraApp().run()

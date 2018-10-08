@@ -15,6 +15,7 @@
             source:'images/talkeen.png'
 
         Label:
+            id: escolha_ura
             text: 'Escolha o tipo de ura que deseja'
             font_size: 20
             spacing: 50
@@ -41,9 +42,10 @@
             text: 'Ok'
             size_hint_x: None
             size: 200,200
-            on_release: root.checkUraType();root.manager.current = root.type_ura
+            on_release: root.checkUraType();root.manager.current = root.type_ura;app.clear_inputs([escolha_ura, error_input])
 
         Label:
+            id:error_input
             text: root.error_text
 
 <Localizacao>:
@@ -67,7 +69,7 @@
                 multiline: False
                 cursor_color: (0, 0, 0, 0.8)
                 id: context_input
-
+                on_text_validate: ura_file_name.focus=True
         BoxLayout:
             Label: 
                 text: 'Nome da ura:'
@@ -76,6 +78,7 @@
                 multiline: False
                 cursor_color: (0, 0, 0, 0.8)
                 id: ura_file_name
+                on_text_validate: ip_input.focus=True
 
         BoxLayout:
             Label:
@@ -85,6 +88,7 @@
                 multiline: False
                 cursor_color: (0, 0, 0, 0.8)
                 id: ip_input
+                on_text_validate: path_input.focus=True
 
         BoxLayout:
             Label:
@@ -94,6 +98,7 @@
                 multiline: False
                 cursor_color: (0, 0, 0, 0.8)
                 id: path_input
+                on_text_validate: custom_path_input.focus=True
 
         BoxLayout:
             Label:
@@ -124,7 +129,7 @@
             size_hint_x: None
             size: 200,200
             on_press: root.uraConfig()
-            on_release: root.clear_inputs([context_input, ura_file_name, ip_input, custom_path_input, path_input])
+            on_release: app.clear_inputs([context_input, ura_file_name, ip_input, custom_path_input, path_input])
 
 <CustomDropDown>:
     padding: 10

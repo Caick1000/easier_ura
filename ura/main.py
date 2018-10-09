@@ -7,6 +7,7 @@ from kivy.uix.button import Button
 from kivy.core.window import Window
 from kivy.uix.screenmanager import ScreenManager, Screen, ScreenManagerException
 from kivy.properties import StringProperty
+from kivy.lang.builder import Builder
 
 # Mysc imports
 from modules import localizacao
@@ -15,6 +16,13 @@ from datetime import datetime
 
 #Color of the window
 Window.clearcolor = (0, 0.05, 0.1, 0)
+
+# Load kv files
+Builder.load_file('kv/Ura.kv')
+Builder.load_file('kv/localizacao.kv')
+Builder.load_file('kv/Preventiva.kv')
+Builder.load_file('kv/Negociacao.kv')
+Builder.load_file('kv/Pesquisa.kv')
 
 
 
@@ -67,6 +75,60 @@ class Preventiva(Screen):
 
         with open(ura_file_name + '.conf', 'w+') as f:
             f.write(ura_header + '\n')
+
+
+
+class Negociacao(Screen):
+    button_text = StringProperty('Gender')
+
+    def __init__(self, **kwargs):
+        super(Negociacao, self).__init__(**kwargs)
+        self.dropdown = CustomDropDown(self)
+
+
+    def uraConfig(self):
+        debug = self.ids.check_debug.active
+        gender = self.ids.gender.text
+        ura_file_name = self.ids.ura_file_name.text
+        context = self.ids.context_input.text
+        ip = self.ids.ip_input.text
+        path =self.ids.path_input.text
+        custom_path = self.ids.custom_path_input.text
+
+        gender, context, path, custom_path, debug, ip, ura_file_name = validations(gender, context, path, custom_path, debug, ip, ura_file_name)
+
+        ura_header = localizacao(context, ip, path, custom_path, gender, debug)
+
+        with open(ura_file_name + '.conf', 'w+') as f:
+            f.write(ura_header + '\n')
+
+
+
+class Pesquisa(Screen):
+    button_text = StringProperty('Gender')
+
+    def __init__(self, **kwargs):
+        super(Pesquisa, self).__init__(**kwargs)
+        self.dropdown = CustomDropDown(self)
+
+
+    def uraConfig(self):
+        debug = self.ids.check_debug.active
+        gender = self.ids.gender.text
+        ura_file_name = self.ids.ura_file_name.text
+        context = self.ids.context_input.text
+        ip = self.ids.ip_input.text
+        path =self.ids.path_input.text
+        custom_path = self.ids.custom_path_input.text
+
+        gender, context, path, custom_path, debug, ip, ura_file_name = validations(gender, context, path, custom_path, debug, ip, ura_file_name)
+
+        ura_header = localizacao(context, ip, path, custom_path, gender, debug)
+
+        with open(ura_file_name + '.conf', 'w+') as f:
+            f.write(ura_header + '\n')
+
+
 
 class MenuScreen(Screen):
     type_ura = StringProperty(None)

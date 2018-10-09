@@ -1,0 +1,84 @@
+<My_manager>
+    MenuScreen:
+    Localizacao:
+    Preventiva:
+    Negociacao:
+    Pesquisa:
+
+<MenuScreen>
+    name: 'Menu'
+    GridLayout:   
+        cols: 1
+        padding: 10
+        spacing: 12
+        row_force_default: True
+        row_default_height: '32dp'
+
+        Image: 
+            source:'images/talkeen.png'
+
+        Label:
+            id: escolha_ura
+            text: 'Escolha o tipo de ura que deseja'
+            font_size: 20
+            spacing: 50
+
+        BoxLayout:
+
+            Label:
+                text: 'Localizacao'
+            CheckBox:
+                id: type_localizacao
+                group: 'type_ura'
+
+            Label:
+                text: 'Preventiva'
+            CheckBox:
+                id: type_preventiva
+                group: 'type_ura'
+
+            Label:
+                text: 'Negociacao'
+            CheckBox:
+                id: type_negociacao
+                group: 'type_ura'
+
+            Label:
+                text: 'Pesquisa'
+            CheckBox:
+                id: type_pesquisa
+                group: 'type_ura'
+
+        Button:
+            text: 'Ok'
+            size_hint_x: None
+            size: 200,200
+            on_release: root.checkUraType();root.manager.current = root.type_ura;app.clear_inputs([escolha_ura, error_input])
+
+        Label:
+            id:error_input
+            text: root.error_text
+
+<Localizacao>
+<Preventiva>
+
+<CustomDropDown>
+    padding: 10
+    spacing: 10
+
+    Button:
+        id: female
+        background_color: (0, 0.01, 0.3, 0)
+        text: 'Female'
+        size_hint_y: None
+        height: 28
+        on_release: root.select('Female')
+        
+    Button:
+        id:male
+        background_color: (0, 0.01, 0.3, 0)
+        text: 'Male'
+        size_hint_y: None
+        height: 28
+        on_release: root.select('Male')
+        

@@ -1,0 +1,85 @@
+<Preventiva>:
+    name: 'preventiva'
+    GridLayout:   
+        cols: 1
+        padding: 10
+        spacing: 10
+        row_force_default: True
+        row_default_height: '32dp'
+
+        Image: 
+            source:'images/talkeen.png'
+
+        Label:
+            text: 'Ura preventiva'
+
+        BoxLayout:
+            Label: 
+                text: 'Contexto:'
+            TextInput: 
+                hint_text: 'Contexto da ura'
+                focus: True
+                multiline: False
+                cursor_color: (0, 0, 0, 0.8)
+                id: context_input
+                on_text_validate: ura_file_name.focus=True
+        BoxLayout:
+            Label: 
+                text: 'Nome da ura:'
+            TextInput: 
+                hint_text: 'Nome do arquivo da ura'
+                multiline: False
+                cursor_color: (0, 0, 0, 0.8)
+                id: ura_file_name
+                on_text_validate: ip_input.focus=True
+
+        BoxLayout:
+            Label:
+                text: 'IP:'
+            TextInput:
+                hint_text: 'IP do servidor'
+                multiline: False
+                cursor_color: (0, 0, 0, 0.8)
+                id: ip_input
+                on_text_validate: path_input.focus=True
+
+        BoxLayout:
+            Label:
+                text: 'Path:'
+            TextInput:
+                hint_text: 'Diretorio dos audios globais'
+                multiline: False
+                cursor_color: (0, 0, 0, 0.8)
+                id: path_input
+                on_text_validate: custom_path_input.focus=True
+
+        BoxLayout:
+            Label:
+                text: 'Custom path:'
+            TextInput:
+                hint_text: 'Diretorio dos audios customizados'
+                multiline: False
+                cursor_color: (0, 0, 0, 0.8)
+                id: custom_path_input
+
+        BoxLayout:
+            Label:
+                text: 'Debug mode'
+            CheckBox:
+                id: check_debug
+
+        Button:
+            id: gender
+            text: root.button_text
+            on_release: root.dropdown.open(self)
+            size_hint_y: None
+            height: '32dp'
+
+
+        Button:
+            text: 'Create Ura'
+            id: bt_create
+            size_hint_x: None
+            size: 200,200
+            on_press: root.uraConfig()
+            on_release: app.clear_inputs([context_input, ura_file_name, ip_input, custom_path_input, path_input])

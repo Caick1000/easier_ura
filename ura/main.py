@@ -9,7 +9,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen, ScreenManagerException
 from kivy.properties import StringProperty
 
 # Mysc imports
-from modules import header, body, footer
+from modules import localizacao
 from validations import validations
 from datetime import datetime
 
@@ -35,14 +35,38 @@ class Localizacao(Screen):
         path =self.ids.path_input.text
         custom_path = self.ids.custom_path_input.text
 
-        gender, context, path, custom_path, debug, ip = validations(gender, context, path, custom_path, debug, ip)
+        gender, context, path, custom_path, debug, ip, ura_file_name = validations(gender, context, path, custom_path, debug, ip, ura_file_name)
 
-        ura_header = header(context, ip, path, custom_path, gender)
+        ura_header = localizacao(context, ip, path, custom_path, gender, debug)
 
         with open(ura_file_name + '.conf', 'w+') as f:
             f.write(ura_header + '\n')
 
 
+
+class Preventiva(Screen):
+    button_text = StringProperty('Gender')
+
+    def __init__(self, **kwargs):
+        super(Preventiva, self).__init__(**kwargs)
+        self.dropdown = CustomDropDown(self)
+
+
+    def uraConfig(self):
+        debug = self.ids.check_debug.active
+        gender = self.ids.gender.text
+        ura_file_name = self.ids.ura_file_name.text
+        context = self.ids.context_input.text
+        ip = self.ids.ip_input.text
+        path =self.ids.path_input.text
+        custom_path = self.ids.custom_path_input.text
+
+        gender, context, path, custom_path, debug, ip, ura_file_name = validations(gender, context, path, custom_path, debug, ip, ura_file_name)
+
+        ura_header = localizacao(context, ip, path, custom_path, gender, debug)
+
+        with open(ura_file_name + '.conf', 'w+') as f:
+            f.write(ura_header + '\n')
 
 class MenuScreen(Screen):
     type_ura = StringProperty(None)
@@ -52,6 +76,7 @@ class MenuScreen(Screen):
         type_localizacao = self.ids.type_localizacao.active
         type_preventiva = self.ids.type_preventiva.active
         type_negociacao = self.ids.type_negociacao.active
+        type_pesquisa = self.ids.type_pesquisa.active
         
         if (type_localizacao):
             self.type_ura = 'localizacao'
@@ -59,6 +84,8 @@ class MenuScreen(Screen):
             self.type_ura = 'preventiva'
         elif(type_negociacao):
             self.type_ura = 'negociacao'
+        elif(type_pesquisa):
+            self.type_ura = 'pesquisa'
         else:
             self.type_ura = 'localizacao'
 
@@ -81,8 +108,6 @@ class My_manager(ScreenManager):
 
 
 class UraApp(App):
-
-
     def build(self):
         return My_manager()
 

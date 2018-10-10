@@ -90,12 +90,25 @@ exten => _X!,1,Set(LINHA_ID=${{EXTEN}})
     same=>n,GotoIf($[ "${{RV_ANSWER}}" = "repetir" ]?encerrar)
     same=>n,GotoIf($[ "${{RV_ANSWER}}" = "naoexiste" ]?desconhece)
     same=>n,GotoIf($[ "${{RV_ANSWER}}" = "naoesta" ]?encerrar)
+    same=>n,GotoIf($[ "${{RV_ANSWER}}" = "" ]?encerrar)
+    same=>n,GotoIf($[ "${{RV_ANSWER}}" = "manha" || "${{RV_ANSWER}}" = "tarde" || "${{RV_ANSWER}}" = "noite" ]?encerrar)
     same=>n,Goto(fim)
 ;===========================================================================================
 ;transferir
 ;===========================================================================================
     same=>n(transferir),NoOp(transferir)
     {type_transferencia}
+;===========================================================================================
+
+;===========================================================================================
+;encerrar
+;===========================================================================================
+    same=>n(encerrar),NoOp(encerrar)
+    same=>n,Wait(1)
+    same=>n,Playback(${{SOUND_DIR}}/localizacao/${{V_GENDER}}/agradece_ligacao)
+    same=>n,Gosub(modulo_encerrar,s,1(${{SOUND_DIR}}/encerrar/${{V_GENDER}}))
+
+    same=>n,Goto(desliga)
 ;===========================================================================================
 
 ;===========================================================================================

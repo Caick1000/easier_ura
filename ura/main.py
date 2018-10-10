@@ -3,13 +3,14 @@ from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.dropdown import DropDown
+from kivy.uix.tabbedpanel import TabbedPanel
 from kivy.uix.button import Button
 from kivy.core.window import Window
 from kivy.uix.screenmanager import ScreenManager, Screen, ScreenManagerException
 from kivy.properties import StringProperty
 from kivy.lang.builder import Builder
 
-# Mysc imports
+# Misc imports
 from modules import localizacao, transferencias
 from validations import validations
 from datetime import datetime
@@ -203,6 +204,11 @@ class MenuScreen(Screen):
             self.type_ura = 'pesquisa'
         else:
             self.type_ura = 'localizacao'
+
+
+
+class SettingsPanel(TabbedPanel):
+    pass
 
 
 

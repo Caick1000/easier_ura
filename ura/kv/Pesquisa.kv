@@ -1,4 +1,4 @@
-<Pesquisa>:
+<Pesquisa>
     name: 'pesquisa'
     GridLayout:   
         cols: 1
@@ -11,7 +11,17 @@
             source:'images/talkeen.png'
 
         Label:
-            text: 'Ura de pesquisa'
+            text: 'Ura de Pesquisa'
+
+        BoxLayout:
+            Label: 
+                text: 'Nome do arquivo:'
+            TextInput: 
+                hint_text: 'Nome do arquivo da ura'
+                multiline: False
+                cursor_color: (0, 0, 0, 0.8)
+                id: ura_file_name
+                on_text_validate: ip_input.focus=True
 
         BoxLayout:
             Label: 
@@ -23,15 +33,6 @@
                 cursor_color: (0, 0, 0, 0.8)
                 id: context_input
                 on_text_validate: ura_file_name.focus=True
-        BoxLayout:
-            Label: 
-                text: 'Nome da ura:'
-            TextInput: 
-                hint_text: 'Nome do arquivo da ura'
-                multiline: False
-                cursor_color: (0, 0, 0, 0.8)
-                id: ura_file_name
-                on_text_validate: ip_input.focus=True
 
         BoxLayout:
             Label:
@@ -67,6 +68,34 @@
                 text: 'Debug mode'
             CheckBox:
                 id: check_debug
+
+        Label:
+            text: 'Transferencia'
+
+        BoxLayout:
+            Label:
+                text: 'Aspect'
+            CheckBox:
+                id: type_aspect
+                group: 'type_transferencia'
+
+            Label:
+                text: 'Olos'
+            CheckBox:
+                id: type_olos
+                group: 'type_transferencia'
+
+            Label:
+                text: 'Talkeen'
+            CheckBox:
+                id: type_talkeen
+                group: 'type_transferencia'
+
+            Label:
+                text: 'Nenhum'
+            CheckBox:
+                id: type_nenhum
+                group: 'type_transferencia'
 
         Button:
             id: gender

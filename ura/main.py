@@ -10,7 +10,7 @@ from kivy.properties import StringProperty
 from kivy.lang.builder import Builder
 
 # Mysc imports
-from modules import localizacao
+from modules import localizacao, transferencias
 from validations import validations
 from datetime import datetime
 
@@ -35,6 +35,10 @@ class Localizacao(Screen):
 
 
     def uraConfig(self):
+        type_aspect = self.ids.type_aspect.active
+        type_olos = self.ids.type_olos.active
+        type_talkeen = self.ids.type_talkeen.active
+        type_nenhum = self.ids.type_nenhum.active
         debug = self.ids.check_debug.active
         gender = self.ids.gender.text
         ura_file_name = self.ids.ura_file_name.text
@@ -43,9 +47,18 @@ class Localizacao(Screen):
         path =self.ids.path_input.text
         custom_path = self.ids.custom_path_input.text
 
+        if type_aspect:
+            transf = 'Aspect'
+        elif type_olos:
+            transf = 'Olos'
+        elif type_talkeen:
+            transf = 'Talkeen'
+        else:
+            transf = 'Nenhum'
+
         gender, context, path, custom_path, debug, ip, ura_file_name = validations(gender, context, path, custom_path, debug, ip, ura_file_name)
 
-        ura_header = localizacao(context, ip, path, custom_path, gender, debug)
+        ura_header = localizacao(context, ip, path, custom_path, gender, debug, transf)
 
         with open(ura_file_name + '.conf', 'w+') as f:
             f.write(ura_header + '\n')
@@ -61,6 +74,11 @@ class Preventiva(Screen):
 
 
     def uraConfig(self):
+
+        type_aspect = self.ids.type_aspect.active
+        type_olos = self.ids.type_olos.active
+        type_talkeen = self.ids.type_talkeen.active
+        type_nenhum = self.ids.type_nenhum.active
         debug = self.ids.check_debug.active
         gender = self.ids.gender.text
         ura_file_name = self.ids.ura_file_name.text
@@ -69,9 +87,18 @@ class Preventiva(Screen):
         path =self.ids.path_input.text
         custom_path = self.ids.custom_path_input.text
 
+        if type_aspect:
+            transf = 'Aspect'
+        elif type_olos:
+            transf = 'Olos'
+        elif type_talkeen:
+            transf = 'Talkeen'
+        else:
+            transf = 'Nenhum'
+
         gender, context, path, custom_path, debug, ip, ura_file_name = validations(gender, context, path, custom_path, debug, ip, ura_file_name)
 
-        ura_header = localizacao(context, ip, path, custom_path, gender, debug)
+        ura_header = localizacao(context, ip, path, custom_path, gender, debug, transf)
 
         with open(ura_file_name + '.conf', 'w+') as f:
             f.write(ura_header + '\n')
@@ -87,6 +114,10 @@ class Negociacao(Screen):
 
 
     def uraConfig(self):
+        type_aspect = self.ids.type_aspect.active
+        type_olos = self.ids.type_olos.active
+        type_talkeen = self.ids.type_talkeen.active
+        type_nenhum = self.ids.type_nenhum.active
         debug = self.ids.check_debug.active
         gender = self.ids.gender.text
         ura_file_name = self.ids.ura_file_name.text
@@ -95,9 +126,18 @@ class Negociacao(Screen):
         path =self.ids.path_input.text
         custom_path = self.ids.custom_path_input.text
 
+        if type_aspect:
+            transf = 'Aspect'
+        elif type_olos:
+            transf = 'Olos'
+        elif type_talkeen:
+            transf = 'Talkeen'
+        else:
+            transf = 'Nenhum'
+
         gender, context, path, custom_path, debug, ip, ura_file_name = validations(gender, context, path, custom_path, debug, ip, ura_file_name)
 
-        ura_header = localizacao(context, ip, path, custom_path, gender, debug)
+        ura_header = localizacao(context, ip, path, custom_path, gender, debug, transf)
 
         with open(ura_file_name + '.conf', 'w+') as f:
             f.write(ura_header + '\n')
@@ -113,6 +153,10 @@ class Pesquisa(Screen):
 
 
     def uraConfig(self):
+        type_aspect = self.ids.type_aspect.active
+        type_olos = self.ids.type_olos.active
+        type_talkeen = self.ids.type_talkeen.active
+        type_nenhum = self.ids.type_nenhum.active
         debug = self.ids.check_debug.active
         gender = self.ids.gender.text
         ura_file_name = self.ids.ura_file_name.text
@@ -121,9 +165,18 @@ class Pesquisa(Screen):
         path =self.ids.path_input.text
         custom_path = self.ids.custom_path_input.text
 
+        if type_aspect:
+            transf = 'Aspect'
+        elif type_olos:
+            transf = 'Olos'
+        elif type_talkeen:
+            transf = 'Talkeen'
+        else:
+            transf = 'Nenhum'
+
         gender, context, path, custom_path, debug, ip, ura_file_name = validations(gender, context, path, custom_path, debug, ip, ura_file_name)
 
-        ura_header = localizacao(context, ip, path, custom_path, gender, debug)
+        ura_header = localizacao(context, ip, path, custom_path, gender, debug, transf)
 
         with open(ura_file_name + '.conf', 'w+') as f:
             f.write(ura_header + '\n')

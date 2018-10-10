@@ -3,10 +3,10 @@ def remove_slash(*args):
     result = []
 
     for var in args:
-        if var.startswith('/'):
+        while var.startswith('/'):
             var = var[1:]
 
-        if var.endswith('/'):
+        while var.endswith('/'):
             var = var[:-1]
     
         result.append(var)
@@ -21,8 +21,13 @@ def validations(gender, context, path, custom_path, debug, ip, ura_file_name):
     path = 'global/{}'.format(gender) if path == '' else path
     custom_path = path if custom_path == '' else custom_path
     debug = '0' if debug == False else '1'
-    ip = 'missing_ip' if ip == '' else ip
-    ura_file_name = context.replace('-', '_') if ura_file_name == '' else ura_file_name
+    ip = '192.168.1.99' if ip == '' else ip
     custom_path, path = remove_slash(custom_path, path)
 
-    return(gender, context, path, custom_path, debug, ip)
+    if ura_file_name == '' and context != 'missing_context':
+        ura_file_name = context.replace('-', '_')
+    
+    elif ura_file_name == '' and context == 'missing_context':
+        ura_file_name = 'Missing_file_name'
+
+    return(gender, context, path, custom_path, debug, ip, ura_file_name)

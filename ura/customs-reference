@@ -1,5 +1,5 @@
 Custom variables in a ura:
-1 - Context - OK
+1 - CONTEXTO - OK
 2 - IP - OK
 3 - SOUND_DIR - OK
 4 - SOUND_DIR_CUSTOM - OK
@@ -7,3 +7,5 @@ Custom variables in a ura:
 6 - Cuts on database
 7 - transferencia (fila_transfer, trunk, MCDU)
 8 - ?replies on the MRCP?
+9 - DEBUG - OK
+10 - NOME ARQUIVO - OK

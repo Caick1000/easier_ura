@@ -59,10 +59,10 @@ class Localizacao(Screen):
 
         gender, context, path, custom_path, debug, ip, ura_file_name = validations(gender, context, path, custom_path, debug, ip, ura_file_name)
 
-        ura_header = localizacao(context, ip, path, custom_path, gender, debug, transf)
+        ura_localizacao = localizacao(context, ip, path, custom_path, gender, debug, transf)
 
         with open(ura_file_name + '.conf', 'w+') as f:
-            f.write(ura_header + '\n')
+            f.write(ura_localizacao + '\n')
 
 
 
@@ -99,10 +99,10 @@ class Preventiva(Screen):
 
         gender, context, path, custom_path, debug, ip, ura_file_name = validations(gender, context, path, custom_path, debug, ip, ura_file_name)
 
-        ura_header = localizacao(context, ip, path, custom_path, gender, debug, transf)
+        ura_localizacao = localizacao(context, ip, path, custom_path, gender, debug, transf)
 
         with open(ura_file_name + '.conf', 'w+') as f:
-            f.write(ura_header + '\n')
+            f.write(ura_localizacao + '\n')
 
 
 
@@ -138,10 +138,10 @@ class Negociacao(Screen):
 
         gender, context, path, custom_path, debug, ip, ura_file_name = validations(gender, context, path, custom_path, debug, ip, ura_file_name)
 
-        ura_header = localizacao(context, ip, path, custom_path, gender, debug, transf)
+        ura_localizacao = localizacao(context, ip, path, custom_path, gender, debug, transf)
 
         with open(ura_file_name + '.conf', 'w+') as f:
-            f.write(ura_header + '\n')
+            f.write(ura_localizacao + '\n')
 
 
 
@@ -177,10 +177,10 @@ class Pesquisa(Screen):
 
         gender, context, path, custom_path, debug, ip, ura_file_name = validations(gender, context, path, custom_path, debug, ip, ura_file_name)
 
-        ura_header = localizacao(context, ip, path, custom_path, gender, debug, transf)
+        ura_localizacao = localizacao(context, ip, path, custom_path, gender, debug, transf)
 
         with open(ura_file_name + '.conf', 'w+') as f:
-            f.write(ura_header + '\n')
+            f.write(ura_localizacao + '\n')
 
 
 

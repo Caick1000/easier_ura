@@ -30,4 +30,7 @@ def validations(gender, context, path, custom_path, debug, ip, ura_file_name):
     elif ura_file_name == '' and context == 'missing_context':
         ura_file_name = 'Missing_file_name'
 
+    if context == 'missing_context' and ura_file_name != '':
+        context = ura_file_name.replace('_', '-')
+
     return(gender, context, path, custom_path, debug, ip, ura_file_name)

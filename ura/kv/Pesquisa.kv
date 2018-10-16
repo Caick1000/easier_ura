@@ -21,7 +21,7 @@
                 multiline: False
                 cursor_color: (0, 0, 0, 0.8)
                 id: ura_file_name
-                on_text_validate: ip_input.focus=True
+                on_text_validate: context_input.focus=True
 
         BoxLayout:
             Label: 
@@ -32,7 +32,7 @@
                 multiline: False
                 cursor_color: (0, 0, 0, 0.8)
                 id: context_input
-                on_text_validate: ura_file_name.focus=True
+                on_text_validate: ip_input.focus=True
 
         BoxLayout:
             Label:

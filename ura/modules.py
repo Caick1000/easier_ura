@@ -5,33 +5,82 @@ current_date = datetime.now().strftime("%Y/%m/%d")
 
 def transferencias(type_transferencia):
     if type_transferencia == 'Aspect':
-        transf = 'TESTE ASPECT'
+        transf = '''same=>n(transferir),NoOp(transferir - Aspect)
+    same=>n,Playback(${SOUND_DIR}/diversos/${V_GENDER}/aguarde_transferencia)
+
+    same=>n,Set(NOME_UNDERLINE=${STRREPLACE(NOME," ","_")})
+    same=>n,Set(NOME_CURTO=${NOME_UNDERLINE:0:29})
+    same=>n,NoOp(NOME_CURTO --> ${NOME_CURTO})
+
+    same=>n,Set(CPF=$[${CPF} +0])
+    same=>n,NoOp(CPF --> ${CPF})
+
+    same=>n,AGI(/var/lib/asterisk/agi-bin/talkeen/string2hex.php,${NUM_CONTR})
+    same=>n,SIPAddHeader(User-to-User: ${V_RETORNO})
+
+    same=>n,NoOp(V_RETORNO -----------> ${V_RETORNO})
+    same=>n,NoOp(${SIP_HEADER(User-to-User)} -----------> ${SIP_HEADER(User-To-User)})
+    same=>n,NoOp(${STRREPLACE(NOME," ","_")})
+    
+    same=>n,Set(CALLERID(name)=${NOME_CURTO}|${CPF}|${DDD}${FONE})
+    same=>n,Set(CALLERID(num)=${DDD}${FONE})
+
+    same=>n,Set(FILE(${gEstados},,,la,u)={"origem":"dialplan","comando":"entregaRemoto","linha_id":"${LINHA_ID}","destino":"${fila_transfer}"})
+    same=>n,Dial(SIP/g50/${fila_transfer})
+
+    same=>n,Goto(fim)'''
 
     elif type_transferencia == 'Olos':
-        transf = 'TESTE OLOS'
+        transf = '''same=>n(transferir),NoOp(transferir - Olos)
+    same=>n,Set(COD_LIG=TRAN)
+    same=>n,Playback(${SOUND_DIR}/diversos/${V_GENDER}/aguarde_transferencia)
+
+    same=>n,Set(NOME_UNDERLINE=${STRREPLACE(NOME," ","_")})
+    same=>n,NoOp(NOME_UNDERLINE --> ${NOME_UNDERLINE})
+
+    same=>n,Set(CALLERID(name)=${NOME_UNDERLINE}|4135606784|${DDD}${FONE})
+    same=>n,Set(CALLERID(num)=${DDD}${FONE})
+
+    same=>n,Set(FILE(${gEstados},,,la,u)={"origem":"dialplan","comando":"entregaRemoto","linha_id":"${LINHA_ID}","destino":"${fila_transfer}"})
+    same=>n,Dial(SIP/g39/${fila_transfer})
+
+    same=>n,Goto(fim)'''
 
     elif type_transferencia == 'Talkeen':
-        transf = 'TESTE TALKEEN'
+        transf = '''same=>n(transferir),NoOp(transferir - Talkeen)
+    same=>n,Set(COD_LIG=TRAN)
+    ame=>n,Playback(${SOUND_DIR}/diversos/${V_GENDER}/aguarde_transferencia)
+
+    same=>n,Set(TAM_LINHA=${LEN(${LINHA_ID})})
+    same=>n,ExecIf($[${TAM_LINHA} = 1]?Set(LINHA_ID_OK=000${LINHA_ID}))
+    same=>n,ExecIf($[${TAM_LINHA} = 2]?Set(LINHA_ID_OK=00${LINHA_ID}))
+    same=>n,ExecIf($[${TAM_LINHA} = 3]?Set(LINHA_ID_OK=0${LINHA_ID}))
+    same=>n,ExecIf($[${TAM_LINHA} = 4]?Set(LINHA_ID_OK=${LINHA_ID}))
+
+    same=>n,Set(CALLERID(num)=${LINHA_ID_OK}${CALLERID(num)})
+    same=>n,Set(CALLERID(name)=${NOME})
+    ;same=>n,Queue(${FILA_TRANSFER},tc)
+    same=>n,Queue(${FILA_TRANSFER},tc,,/var/lib/asterisk/sounds/talkeen/AgenteVirtual)
+    same=>n,Hangup()
+    same=>n,Goto(fim) '''
 
     else:
-        transf = 'TESTE NENHUM'
+        transf = '''same=>n(transferir),NoOp(sem transferencia)
+    same=>n,Goto(encerrar)'''
 
     return(transf)
 
 
 def localizacao(context, ip, path, custom_path, gender, debug, transf):
-
-
     type_transferencia = transferencias(transf)
 
     layout = ''';-----------------------------------------------------------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------------------------------------------------------
-
-;/*
+;
 ;TALKEEN - {context}
 ;DATA: {current_date}
-;*/
-
+; CREATED BY - CAICK
+;
 ;-----------------------------------------------------------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------------------------------------------------------
 [{context}]
@@ -62,7 +111,9 @@ exten => _X!,1,Set(LINHA_ID=${{EXTEN}})
     same=>n,NoOp("COD_LIG => "${{COD_LIG}})
     same=>n,NoOp("SECE => "${{SECE}})
 
-;==========BLOCO SETA VARIAVEIS PARA USAR NO DIALPLAN============
+;===========================================================================================
+;variaveis para o dialplan
+;===========================================================================================
    same=>n,GotoIf($[ "${{DEBUG}}" = "1" ]?interno_gcami_reply)
     same=>n,Set(DDD=${{CUT(gcami_reply,|,1)}})
     same=>n,Set(FONE=${{CUT(gcami_reply,|,2)}})
@@ -78,7 +129,9 @@ exten => _X!,1,Set(LINHA_ID=${{EXTEN}})
     same=>n(interno_gcami_reply),Set(PRI_NOME=${{CUT(NOME," ",1)}})
     same=>n,Set(PRI_NOME=${{TOLOWER(${{PRI_NOME}})}})
 
-;==========================================LOCALIZAR RESPONSAVEL========================================
+;===========================================================================================
+;localizar responsavel
+;===========================================================================================
     same=>n,Gosub(modulo_localizacao,s,1(${{SOUND_DIR}},${{V_GENDER}},${{SOUND_DIR_CUSTOM}},${{GRAMMAR_GLOBAL_DIR}},${{PRI_NOME}},0))
     same=>n,NoOp("RV_ANSWER =>"${{RV_ANSWER}})
     same=>n,GotoIf($[ "${{RV_ANSWER}}" = "sim" ]?transferir)
@@ -88,7 +141,7 @@ exten => _X!,1,Set(LINHA_ID=${{EXTEN}})
     same=>n,GotoIf($[ "${{RV_ANSWER}}" = "naoexiste"]?encerrar)
     same=>n,GotoIf($[ "${{RV_ANSWER}}" = "quem" ]?encerrar)
     same=>n,GotoIf($[ "${{RV_ANSWER}}" = "repetir" ]?encerrar)
-    same=>n,GotoIf($[ "${{RV_ANSWER}}" = "naoexiste" ]?desconhece)
+    same=>n,GotoIf($[ "${{RV_ANSWER}}" = "naoexiste" ]?encerrar)
     same=>n,GotoIf($[ "${{RV_ANSWER}}" = "naoesta" ]?encerrar)
     same=>n,GotoIf($[ "${{RV_ANSWER}}" = "" ]?encerrar)
     same=>n,GotoIf($[ "${{RV_ANSWER}}" = "manha" || "${{RV_ANSWER}}" = "tarde" || "${{RV_ANSWER}}" = "noite" ]?encerrar)
@@ -96,7 +149,6 @@ exten => _X!,1,Set(LINHA_ID=${{EXTEN}})
 ;===========================================================================================
 ;transferir
 ;===========================================================================================
-    same=>n(transferir),NoOp(transferir)
     {type_transferencia}
 ;===========================================================================================
 

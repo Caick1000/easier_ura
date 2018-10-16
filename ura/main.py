@@ -6,15 +6,16 @@ from kivy.uix.dropdown import DropDown
 from kivy.uix.tabbedpanel import TabbedPanel
 from kivy.uix.button import Button
 from kivy.core.window import Window
-from kivy.uix.screenmanager import ScreenManager, Screen, ScreenManagerException
+from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import StringProperty
 from kivy.lang.builder import Builder
+from  kivy.uix.filechooser import FileChooserListView
 
 # Misc imports
 from modules import localizacao, transferencias
 from validations import validations
 from datetime import datetime
-
+import os
 #Color of the window
 Window.clearcolor = (0, 0.05, 0.1, 0)
 
@@ -205,7 +206,14 @@ class MenuScreen(Screen):
         else:
             self.type_ura = 'localizacao'
 
+    def open(self, path, filename):
+        print(path, filename)
+        with open(os.path.join(path, filename[0])) as f:
+            print (f.read())
 
+    def selected(self, filename):
+        print(filename)
+        print ("selected: %s" % filename[0])
 
 class SettingsPanel(TabbedPanel):
     pass
@@ -227,7 +235,7 @@ class My_manager(ScreenManager):
     pass
 
 
-
+    
 class UraApp(App):
     def build(self):
         return My_manager()

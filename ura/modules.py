@@ -26,7 +26,7 @@ def transferencias(type_transferencia):
     same=>n,Set(CALLERID(num)=${DDD}${FONE})
 
     same=>n,Set(FILE(${gEstados},,,la,u)={"origem":"dialplan","comando":"entregaRemoto","linha_id":"${LINHA_ID}","destino":"${fila_transfer}"})
-    same=>n,Dial(SIP/g50/${fila_transfer})
+    same=>n,Dial(SIP/g50/${FILA_TRANSFER})
 
     same=>n,Goto(fim)'''
 
@@ -42,7 +42,7 @@ def transferencias(type_transferencia):
     same=>n,Set(CALLERID(num)=${DDD}${FONE})
 
     same=>n,Set(FILE(${gEstados},,,la,u)={"origem":"dialplan","comando":"entregaRemoto","linha_id":"${LINHA_ID}","destino":"${fila_transfer}"})
-    same=>n,Dial(SIP/g39/${fila_transfer})
+    same=>n,Dial(SIP/g39/${FILA_TRANSFER})
 
     same=>n,Goto(fim)'''
 

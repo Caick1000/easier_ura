@@ -59,6 +59,17 @@
             id:error_input
             text: root.error_text
 
+
+        BoxLayout:
+            Button:
+                text: "open"
+                on_release: root.open(filechooser.path, filechooser.selection)
+            FileChooserListView:
+                id: filechooser
+                path: '.'
+                on_selection: root.selected(filechooser.selection)
+        
+
 <Localizacao>
 <Preventiva>
 
@@ -81,4 +92,3 @@
         size_hint_y: None
         height: 28
         on_release: root.select('Male')
-        

@@ -9,6 +9,7 @@ from kivy.core.window import Window
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import StringProperty
 from kivy.lang.builder import Builder
+from kivy.uix.slider import Slider
 
 # Misc imports
 from modules import localizacao, transferencias

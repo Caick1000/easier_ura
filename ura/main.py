@@ -9,7 +9,6 @@ from kivy.core.window import Window
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import StringProperty
 from kivy.lang.builder import Builder
-from  kivy.uix.filechooser import FileChooserListView
 
 # Misc imports
 from modules import localizacao, transferencias
@@ -76,7 +75,6 @@ class Preventiva(Screen):
 
 
     def uraConfig(self):
-
         type_aspect = self.ids.type_aspect.active
         type_olos = self.ids.type_olos.active
         type_talkeen = self.ids.type_talkeen.active
@@ -206,15 +204,8 @@ class MenuScreen(Screen):
         else:
             self.type_ura = 'localizacao'
 
-    def open(self, path, filename):
-        print(path, filename)
-        with open(os.path.join(path, filename[0])) as f:
-            print (f.read())
 
-    def selected(self, filename):
-        print(filename)
-        print ("selected: %s" % filename[0])
-
+            
 class SettingsPanel(TabbedPanel):
     pass
 
@@ -224,7 +215,6 @@ class CustomDropDown(DropDown):
     def __init__(self, genders, **kwargs):
         super(CustomDropDown, self).__init__(**kwargs)
         self.gender = genders
-
 
     def on_select(self, data):
         self.gender.button_text = data

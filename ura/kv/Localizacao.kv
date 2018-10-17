@@ -127,6 +127,46 @@
                     on_press: root.uraConfig()
                     on_release: app.clear_inputs([context_input, ura_file_name, ip_input, custom_path_input, path_input])
         TabbedPanelItem:
-            text: 'Advanded Settings'
-            Label:
-                text: 'teste'
+            text: 'Advanced Settings'
+            GridLayout:   
+                cols: 1
+                padding: 10
+                spacing: 10
+                row_force_default: True
+                row_default_height: '32dp'
+
+                Image: 
+                    source:'images/talkeen.png'
+                BoxLayout:
+                    Label:
+                        text: 'RecVoz config'
+                    TextInput: 
+                        hint_text: 'before speech timeout'
+                        focus: True
+
+                        multiline: False
+                        cursor_color: (0, 0, 0, 0.8)
+                        id: before_speech
+                        on_text_validate: after_speech.focus=True
+
+                    TextInput: 
+                        hint_text: 'after speech timeout'
+                        focus: True
+                        multiline: False
+                        cursor_color: (0, 0, 0, 0.8)
+                        id: after_speech
+
+                    TextInput: 
+                        hint_text: 'before speech timeout'
+                        focus: True
+                        multiline: False
+                        cursor_color: (0, 0, 0, 0.8)
+                        id: before_speech
+                        on_text_validate: after_speech.focus=True
+
+                    TextInput: 
+                        hint_text: 'after speech timeout'
+                        focus: True
+                        multiline: False
+                        cursor_color: (0, 0, 0, 0.8)
+                        id: after_speech

@@ -13,7 +13,7 @@
         background_color: (0, 0.07, 0.2, 0)
         border: [0, 0, 0, 0]
         TabbedPanelItem:
-            text: 'Localizacao'
+            text: 'Ura localizacao'
             GridLayout:   
                 cols: 1
                 padding: 10
@@ -127,7 +127,7 @@
                     on_press: root.uraConfig()
                     on_release: app.clear_inputs([context_input, ura_file_name, ip_input, custom_path_input, path_input])
         TabbedPanelItem:
-            text: 'Advanced Settings'
+            text: 'Recvoz Settings'
             GridLayout:   
                 cols: 1
                 padding: 20
@@ -138,9 +138,10 @@
                 Image: 
                     source:'images/talkeen.png'
                 Label:
-                    text: 'Global recVoz config'
+                    text: ' Configuracao do recvoz de Localizacao'
                 BoxLayout:
-                    spacing: 30
+                    Label:
+                        text: 'Before speech timeout'
                     TextInput: 
                         hint_text: 'before speech timeout'
                         focus: True
@@ -148,26 +149,31 @@
                         cursor_color: (0, 0, 0, 0.8)
                         id: before_speech
                         on_text_validate: after_speech.focus=True
-
+                BoxLayout:
+                    Label:
+                        text: 'After speech timeout'
                     TextInput: 
-                        hint_text: 'after speech timeout'
+                        hint_text: 'After speech timeout'
                         focus: True
                         multiline: False
                         cursor_color: (0, 0, 0, 0.8)
                         id: after_speech
 
                 BoxLayout:
-                    spacing: 30
+                    Label:
+                        text: 'Incomplete timeout'
                     TextInput: 
-                        hint_text: 'incomplete timeout'
+                        hint_text: 'Incomplete timeout'
                         focus: True
                         multiline: False
                         cursor_color: (0, 0, 0, 0.8)
                         id: incomplete_speech
                         on_text_validate: after_speech.focus=True
-
+                BoxLayout:
+                    Label:
+                        text: 'Max speech timeout'
                     TextInput: 
-                        hint_text: 'max speech timeout'
+                        hint_text: 'Max speech timeout'
                         focus: True
                         multiline: False
                         cursor_color: (0, 0, 0, 0.8)

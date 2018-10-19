@@ -68,11 +68,15 @@ def transferencias(type_transferencia):
         transf = '''same=>n(transferir),NoOp(sem transferencia)
     same=>n,Goto(encerrar)'''
 
-    return(transf)
+    file_name_transf = type_transferencia.lower()
+    with open('transferencia_' + file_name_transf + '.conf', 'w+') as f:
+        f.write(transf + '\n')
+
+    return(file_name_transf)
 
 
 def localizacao(context, ip, path, custom_path, gender, debug, transf):
-    type_transferencia = transferencias(transf)
+    file_name_transf = transferencias(transf)
 
     layout = ''';-----------------------------------------------------------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------------------------------------------------------
@@ -149,7 +153,30 @@ exten => _X!,1,Set(LINHA_ID=${{EXTEN}})
 ;===========================================================================================
 ;transferir
 ;===========================================================================================
-    {type_transferencia}
+    same=>n(transferir),NoOp(transferir)
+    same=>n,GotoIf($[ "${{COD_LINK_CHAR}}" = "transferir_talkeen" ]?transferir_talkeen)
+    same=>n,Gosub(${file_name_transf},s,1(${{SOUND_DIR}},${{V_GENDER}}))
+    same=>n,Goto(fim)
+;===========================================================================================
+
+;===========================================================================================
+;transferir_talkeen
+;===========================================================================================
+    same=>n(transferir_talkeen),Set(COD_LIG=TRAN)
+    same=>n,Playback(${{SOUND_DIR}}/diversos/${{V_GENDER}}/aguarde_transferencia)
+
+    same=>n,Set(TAM_LINHA=${LEN(${{LINHA_ID}})})
+    same=>n,ExecIf($[${{TAM_LINHA}} = 1]?Set(LINHA_ID_OK=000${{LINHA_ID}}))
+    same=>n,ExecIf($[${{TAM_LINHA}} = 2]?Set(LINHA_ID_OK=00${{LINHA_ID}}))
+    same=>n,ExecIf($[${{TAM_LINHA}} = 3]?Set(LINHA_ID_OK=0${{LINHA_ID}}))
+    same=>n,ExecIf($[${{TAM_LINHA}} = 4]?Set(LINHA_ID_OK=${{LINHA_ID}}))
+
+    same=>n,Set(CALLERID(num)=${{LINHA_ID_OK}}${CALLERID(num)})
+    same=>n,Set(CALLERID(name)=${{NOME}})
+    ;same=>n,Queue(${{FILA_TRANSFER}},tc)
+    same=>n,Queue(${{FILA_TRANSFER}},tc,,/var/lib/asterisk/sounds/talkeen/AgenteVirtual)
+    same=>n,Hangup()
+    same=>n,Goto(fim) 
 ;===========================================================================================
 
 ;===========================================================================================
@@ -187,6 +214,6 @@ exten => h,1,NoOp(Event Hangup)
 ; fim talkeen-localizacao
 ;----------------------------------------------------------------
 
-'''.format(context=context, ip=ip, gender=gender, path=path, custom_path=custom_path, debug=debug, type_transferencia=type_transferencia, current_date=current_date)
+'''.format(context=context, ip=ip, gender=gender, path=path, custom_path=custom_path, debug=debug, file_name_transf=file_name_transf, current_date=current_date)
 
     return(layout)

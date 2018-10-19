@@ -127,8 +127,8 @@
                     on_press: root.uraConfig()
                     on_release: app.clear_inputs([context_input, ura_file_name, ip_input, custom_path_input, path_input])
         TabbedPanelItem:
-            text: 'Recvoz Settings'
-            GridLayout:   
+            text: 'Transf Settings'
+            GridLayout:
                 cols: 1
                 padding: 20
                 spacing: 20
@@ -138,7 +138,7 @@
                 Image: 
                     source:'images/talkeen.png'
                 Label:
-                    text: ' Configuracao do recvoz de Localizacao'
+                    text: ' Configuracao de transferencia'
                 BoxLayout:
                     Label:
                         text: 'Before speech timeout'
@@ -158,43 +158,3 @@
                         multiline: False
                         cursor_color: (0, 0, 0, 0.8)
                         id: after_speech
-
-                BoxLayout:
-                    Label:
-                        text: 'Incomplete timeout'
-                    TextInput: 
-                        hint_text: 'Incomplete timeout'
-                        focus: True
-                        multiline: False
-                        cursor_color: (0, 0, 0, 0.8)
-                        id: incomplete_speech
-                        on_text_validate: after_speech.focus=True
-                BoxLayout:
-                    Label:
-                        text: 'Max speech timeout'
-                    TextInput: 
-                        hint_text: 'Max speech timeout'
-                        focus: True
-                        multiline: False
-                        cursor_color: (0, 0, 0, 0.8)
-                        id: max_speech
-                    
-                BoxLayout:     
-                    Label:
-                        height: '32dp'
-                        text: 'Confidence level:   ' + str(round(confidence_level.value_normalized, 2))
-                    Slider:
-                        size_hint_x: 0.8
-                        min: 0
-                        max: 1
-                        value: 0.66
-                        value_track: True
-                        value_track_color: [1.1, 1, 1, 1]
-                        focus: True
-                        id: confidence_level
-
-                BoxLayout:
-                    Label: 
-                        text: 'Barge in'
-                    CheckBox:
-                        id: barge_in
